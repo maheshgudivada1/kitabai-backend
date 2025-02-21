@@ -413,21 +413,81 @@ app.get('/getbooks', async (req, res) => {
 
 app.get('/getbook/:isbn', async (req, res) => {
   try {
-    const { isbn } = req.params;  // Get the ISBN number from the request parameters
-
-    // Find the book with the provided ISBN number
-    const book = await Book.findOne({ isbn: isbn });
+    // Find the book in the database using the ISBN number from the URL
+    const book = await Book.findOne({ isbn: req.params.isbn });
 
     if (!book) {
-      return res.status(404).json({ error: 'Book not found' });  // If no book is found, return 404
+      return res.status(404).send('Book not found');
     }
 
-    res.status(200).json(book);  // Send the book as a JSON response
-  } catch (error) {
-    console.error('Error retrieving the book:', error);
-    res.status(500).json({ error: 'Error retrieving the book' });
+    // Send an HTML page that displays the book details
+    res.send(`
+      <html>
+        <head>
+          <title>${book.title}</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              margin: 40px;
+            }
+            .container {
+              max-width: 600px;
+              margin: 0 auto;
+              padding: 20px;
+              border: 1px solid #ddd;
+              border-radius: 10px;
+            }
+            .cover-image {
+              max-width: 100%;
+              height: auto;
+              display: block;
+              margin-bottom: 20px;
+            }
+            .title {
+              font-size: 24px;
+              font-weight: bold;
+              margin-bottom: 10px;
+            }
+            .details {
+              font-size: 18px;
+              margin-bottom: 20px;
+            }
+            .description {
+              font-size: 16px;
+              margin-bottom: 20px;
+            }
+            .reviews {
+              font-size: 14px;
+              color: #666;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <img class="cover-image" src="${book.coverUrl}" alt="Book Cover">
+            <div class="title">${book.title}</div>
+            <div class="details">
+              <p><strong>Author:</strong> ${book.author}</p>
+              <p><strong>Category:</strong> ${book.category}</p>
+              <p><strong>Publisher:</strong> ${book.publisher}</p>
+              <p><strong>Total Pages:</strong> ${book.totalPage}</p>
+              <p><strong>MRP:</strong> ₹${book.MRP}</p>
+              <p><strong>Discounted Price:</strong> ₹${book.discountedPrice}</p>
+              <p><strong>Rating:</strong> ${book.starRating} / 5</p>
+              <p><strong>Popularity:</strong> ${book.popularity}</p>
+            </div>
+            <div class="description">${book.description}</div>
+            <div class="reviews"><strong>Reviews:</strong> ${book.reviews.join(', ')}</div>
+          </div>
+        </body>
+      </html>
+    `);
+  } catch (err) {
+    console.error('Error fetching book data:', err.message);
+    res.status(500).send('Server Error');
   }
 });
+
 
 
 
