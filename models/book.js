@@ -14,18 +14,13 @@ const bookSchema = new mongoose.Schema({
   discountedPrice: { type: Number, required: true },     // Discounted price after applying discount
   author: { type: String, required: true },              // Author of the book
   publisher: { type: String, required: true },           // Publisher of the book
-<<<<<<< HEAD
   isbn: { type: String, required: true }, 
   qrCodeUrl: { type: String, required: false },   // Add field to store QR code URL              // ISBN number
-=======
-  isbn: { type: String, required: true },                // ISBN number
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
   popularity: {                                          // Popularity: Low / Medium / High
     type: String, 
     enum: ['Low', 'Medium', 'High'], 
     required: true 
   },
-<<<<<<< HEAD
   files: [                                               // Array of file metadata
     {
       name: { type: String, required: true },            // File name
@@ -36,8 +31,6 @@ const bookSchema = new mongoose.Schema({
       createdAt: { type: String, required: true },       // Timestamp when the file was created
     }
   ],
-=======
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
 }, { timestamps: true });  // Adds createdAt and updatedAt fields automatically
 
 // Create the Book model
