@@ -3,16 +3,12 @@ const dotenv = require("dotenv");
 const mongoose = require('mongoose');
 const AWS = require('aws-sdk');
 const moment = require('moment');  // Import moment.js to handle date formatting
-<<<<<<< HEAD
 const fs = require('fs');
 const QRCode = require('qrcode');
-=======
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
 
 const { v4: uuidv4 } = require('uuid'); // Import uuidv4
 const validator = require('validator');
 const Folder = require('./models/folder');
-<<<<<<< HEAD
 const bodyParser = require('body-parser');
 
 const { Book } = require('./models/book');  // Adjust the path based on your folder structure
@@ -28,15 +24,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-=======
-
-const { Book } = require('./models/book');  // Adjust the path based on your folder structure
-
-const { MongoClient, ObjectId } = require("mongodb"); //npm install mongodb
-
-
-const app = express();
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
 app.use(express.json());
 dotenv.config();
 
@@ -61,21 +48,14 @@ const uri = process.env.mongo_uri;
 const client = new MongoClient(uri);
 
 
-<<<<<<< HEAD
 const dbname = "test";
-=======
-const dbname = "Aitota";
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
 const collection_name = "users";
 let usersCollection;
 let adminsCollection;
 let subadminsCollection;
 
 let result = "UnSuccessful";
-<<<<<<< HEAD
 app.use(bodyParser.urlencoded({ extended: true }));
-=======
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
 
 
 
@@ -431,7 +411,6 @@ app.get('/getbooks', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 app.get('/getbook/:isbn', async (req, res) => {
   try {
     const { isbn } = req.params;  // Get the ISBN number from the request parameters
@@ -460,19 +439,10 @@ app.post('/uploadbooks', async (req, res) => {
     const bookUrl = `https://kitabai-books.onrender.com/getbook/${req.body.isbnNumber}`;
     const qrCodeUrl = await QRCode.toDataURL(bookUrl);
 
-=======
-
-app.post('/uploadbooks', async (req, res) => {
-  try {
-    // Log the incoming data from frontend
-    console.log('Received data from frontend:', req.body);
-
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
     // Create a new book instance using the request body data
     const newBook = new Book({
       title: req.body.title,
       category: req.body.category,
-<<<<<<< HEAD
       coverUrl: req.body.coverPageUrl,
       starRating: req.body.startRating,
       totalPage: req.body.totalPages,
@@ -486,43 +456,20 @@ app.post('/uploadbooks', async (req, res) => {
       isbn: req.body.isbnNumber,
       popularity: req.body.popularity,
       qrCodeUrl, // Store the QR code URL
-=======
-      coverUrl: req.body.coverPageUrl,  // Adjusted to match frontend field
-      starRating: req.body.startRating, // Adjusted to match frontend field
-      totalPage: req.body.totalPages,   // Adjusted to match frontend field
-      description: req.body.description,
-      reviews: req.body.reviews || [],  // Default to empty array if not provided
-      MRP: req.body.mrp,                // Adjusted to match frontend field
-      discount: req.body.discount || 0, // Default to 0 if not provided
-      discountedPrice: req.body.discountedPrice,
-      author: req.body.author,
-      publisher: req.body.publisher,
-      isbn: req.body.isbnNumber,        // Adjusted to match frontend field
-      popularity: req.body.popularity,
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
     });
 
     // Save the book to the database
     const savedBook = await newBook.save();
     res.status(201).json({ message: 'Book added successfully!', book: savedBook });
-<<<<<<< HEAD
     console.log('Book uploaded successfully, QR code generated and stored.');
   } catch (err) {
-=======
-    console.log("book uploaded succefully")
-  } catch (err) {
-    // Handle validation errors and send a friendly error message
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
     console.error('Error uploading book metadata:', err.message);
     res.status(400).json({ error: err.message });
   }
 });
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
 app.post('/coverpagepresignedurl', async (req, res) => {
   const { folderName, fileName } = req.body;
   console.log(folderName, fileName);
@@ -600,7 +547,6 @@ app.delete('/deletebook/:id', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 app.post('/getpresignedurlFiles', async (req, res) => {
   const { folderName, fileName } = req.body;
   try {
@@ -687,8 +633,6 @@ app.post('/addFilesToBook', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error adding files to book' });
   }
 });
-=======
->>>>>>> 7cd707700db3bf0a84c1b7c3b0d48fff48fd0d5d
 
 
 
