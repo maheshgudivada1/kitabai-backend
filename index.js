@@ -425,17 +425,20 @@ app.get('/getbook/:isbn', async (req, res) => {
       <html>
         <head>
           <title>${book.title}</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>
             body {
               font-family: Arial, sans-serif;
-              margin: 40px;
+              margin: 20px;
+              background-color: #f9f9f9;
             }
             .container {
-              max-width: 600px;
+              max-width: 800px;
               margin: 0 auto;
               padding: 20px;
               border: 1px solid #ddd;
               border-radius: 10px;
+              background-color: #fff;
             }
             .cover-image {
               max-width: 100%;
@@ -460,6 +463,60 @@ app.get('/getbook/:isbn', async (req, res) => {
               font-size: 14px;
               color: #666;
             }
+            .buttons {
+              display: flex;
+              justify-content: space-between;
+              margin-top: 30px;
+            }
+            .button {
+              background-color: #4CAF50;
+              color: white;
+              padding: 10px 20px;
+              text-align: center;
+              text-decoration: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 16px;
+              margin-right:20px;
+
+            }
+            .button:hover {
+              background-color: #45a049;
+            }
+            @media only screen and (max-width: 768px) {
+              .container {
+                width: 100%;
+                padding: 15px;
+                border: none;
+                margin: 0;
+              }
+              .title {
+                font-size: 20px;
+              }
+              .details {
+                font-size: 16px;
+              }
+              .description {
+                font-size: 14px;
+              }
+            }
+            @media only screen and (max-width: 480px) {
+              .container {
+                padding: 10px;
+              }
+              .title {
+                font-size: 18px;
+              }
+              .details {
+                font-size: 14px;
+              }
+              .description {
+                font-size: 12px;
+              }
+              .button{
+                font-size:15px;
+              }
+            }
           </style>
         </head>
         <body>
@@ -478,6 +535,14 @@ app.get('/getbook/:isbn', async (req, res) => {
             </div>
             <div class="description">${book.description}</div>
             <div class="reviews"><strong>Reviews:</strong> ${book.reviews.join(', ')}</div>
+
+            <div class="buttons">
+              <!-- Button to download KitabAi app from Play Store -->
+              <a href="https://play.google.com/store/search?q=KitabAI&c=apps" class="button" target="_blank">Download KitabAi App</a>
+
+              <!-- Button to navigate to the main site -->
+              <a href="https://kitabai.in" class="button" target="_blank">Go to Main Site</a>
+            </div>
           </div>
         </body>
       </html>
@@ -491,12 +556,13 @@ app.get('/getbook/:isbn', async (req, res) => {
 
 
 
+
 app.post('/uploadbooks', async (req, res) => {
   try {
     console.log('Received data from frontend:', req.body);
 
     // Generate QR code for the book (use book's title or any unique identifier)
-    const bookUrl = `https://kitabai-books.onrender.com/getbook/${req.body.isbnNumber}`;
+    const bookUrl = `https://localhost:3001/getbook/${req.body.isbnNumber}`;
     const qrCodeUrl = await QRCode.toDataURL(bookUrl);
 
     // Create a new book instance using the request body data
