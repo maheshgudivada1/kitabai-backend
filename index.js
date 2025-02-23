@@ -562,7 +562,7 @@ app.post('/uploadbooks', async (req, res) => {
     console.log('Received data from frontend:', req.body);
 
     // Generate QR code for the book (use book's title or any unique identifier)
-    const bookUrl = `https://localhost:3001/getbook/${req.body.isbnNumber}`;
+    const bookUrl = `https://kitabai-books.onrender.com/getbook/${req.body.isbnNumber}`;
     const qrCodeUrl = await QRCode.toDataURL(bookUrl);
 
     // Create a new book instance using the request body data
